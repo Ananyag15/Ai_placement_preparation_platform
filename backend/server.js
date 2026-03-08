@@ -16,8 +16,8 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-import interviewRoutes from "./routes/interviewRoutes.js";
-import resumeRoutes from "./routes/resumeRoutes.js";
+import interviewRoutes from "./routes/interviewRouters.js";
+import resumeRoutes from "./routes/resumeRouters.js";
 
-app.use("/api/interview", interviewRoutes);
-app.use("/api/resume", resumeRoutes);
+app.use("/api/interview", interviewRouters);
+app.use("/api/resume", resumeRouters);
