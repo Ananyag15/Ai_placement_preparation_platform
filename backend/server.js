@@ -1,23 +1,43 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
-});
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 import interviewRoutes from "./routes/interviewRouters.js";
 import resumeRoutes from "./routes/resumeRouters.js";
 
-app.use("/api/interview", interviewRouters);
-app.use("/api/resume", resumeRouters);
+dotenv.config();
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// Debug check
+console.log("MONGO_URI:", process.env.MONGO_URI);
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    console.log("✅ Database connected successfully");
+})
+.catch((err) => {
+    console.error("❌ Database Error:", err.message);
+});
+
+// Routes
+app.use("/api/interview", interviewRoutes);
+app.use("/api/resume", resumeRoutes);
+
+// Test route
+app.get("/", (req, res) => {
+    res.send("🚀 AI Placement Preparation Platform Backend Running");
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+});
