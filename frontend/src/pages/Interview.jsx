@@ -1,26 +1,26 @@
-import { generateQuestions } from "../services/api";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import API from "../services/api";
+import Navbar from "../components/Navbar";
+import QuestionCard from "../components/QuestionCard";
 
 function Interview() {
-  const [role, setRole] = useState("");
-  const [questions, setQuestions] = useState("");
+  const [questions, setQuestions] = useState([]);
 
-  const handleGenerate = async () => {
-    const res = await generateQuestions(role);
-    setQuestions(res.data.questions);
-  };
+  useEffect(() => {
+    API.get("/interview")
+      .then((res) => setQuestions(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Enter Role"
-        onChange={(e) => setRole(e.target.value)}
-      />
-      <button onClick={handleGenerate}>Generate</button>
-      <p>{questions}</p>
+      <Navbar />
+      <h2>Interview Questions</h2>
+      {questions.map((q, i) => (
+        <QuestionCard key={i} question={q} />
+      ))}
     </div>
   );
 }
 
-export default Interview
+export default Interview;

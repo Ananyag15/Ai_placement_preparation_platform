@@ -1,2 +1,0 @@
-president-manju
-oa-manogna

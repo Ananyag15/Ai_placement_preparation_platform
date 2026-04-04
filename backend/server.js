@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
 
 // Debug check
 console.log("MONGO_URI:", process.env.MONGO_URI);
@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_URI)
 .catch((err) => {
     console.error("❌ Database Error:", err.message);
 });
-
+app.use(cors());
 // Routes
 app.use("/api/interview", interviewRoutes);
 app.use("/api/resume", resumeRoutes);
